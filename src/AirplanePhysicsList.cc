@@ -2,23 +2,15 @@
 
 #include "AirplanePhysicsList.hh"
 
-#include "G4VUserPhysicsList.hh"
-#include "G4Proton.hh"
+#include "G4EmStandardPhysics.hh"
 
 AirplanePhysicsList::AirplanePhysicsList()
-: G4VUserPhysicsList()
-{ }
+: G4VModularPhysicsList()
+{ 
+  SetVerboseLevel(1);
+  RegisterPhysics(new G4EmStandardPhysics());
+}
 
 AirplanePhysicsList::~AirplanePhysicsList()
 { }
 
-void AirplanePhysicsList::ConstructParticle()
-{
-  G4Proton::ProtonDefinition();
-}
-
-
-void AirplanePhysicsList::ConstructProcess()
-{
-  AddTransportation();
-}

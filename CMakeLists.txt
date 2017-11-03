@@ -47,9 +47,8 @@ set(EXAMPLE_AIRPLANE_SCRIPTS
   airplane.in
   airplane.out
   init_vis.mac
-  run1.mac
-  run2.mac
   vis.mac
+  init_gps.mac
   )
 
 foreach(_script ${EXAMPLE_AIRPLANE_SCRIPTS})

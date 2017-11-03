@@ -7,7 +7,7 @@
 #include "G4UIExecutive.hh"
 
 #include "AirplaneDetectorConstruction.hh"
-#include "AirplanePhysicsList.hh"
+#include "Shielding.hh"
 #include "AirplaneActionInitialization.hh"
 
 int main(int argc, char** argv) {
@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
   G4RunManager* runManager = new G4RunManager;
 
   runManager->SetUserInitialization(new AirplaneDetectorConstruction);
-  runManager->SetUserInitialization(new AirplanePhysicsList);
+  runManager->SetUserInitialization(new Shielding);
   runManager->SetUserInitialization(new AirplaneActionInitialization);
 
   G4VisManager* visManager = new G4VisExecutive;
@@ -38,6 +38,7 @@ int main(int argc, char** argv) {
   } else {
     // interactive mode
     UImanager->ApplyCommand("/control/execute init_vis.mac");
+    UImanager->ApplyCommand("/control/execute init_gps.mac");
     ui->SessionStart();
     delete ui;
   }

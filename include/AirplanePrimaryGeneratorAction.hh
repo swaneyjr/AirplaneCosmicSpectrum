@@ -4,7 +4,7 @@
 #define AirplanePrimaryGeneratorAction_h 1
 
 #include "G4VUserPrimaryGeneratorAction.hh"
-#include "G4ParticleGun.hh"
+#include "G4GeneralParticleSource.hh"
 
 
 class G4ParticleGun;
@@ -18,10 +18,10 @@ class AirplanePrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 
     virtual void GeneratePrimaries(G4Event*);    
 
-    const G4ParticleGun* GetParticleGun() const { return fParticleGun; }
+    const G4GeneralParticleSource* GetParticleGun() const { return fParticleGun; }
 
   private:
-    G4ParticleGun* fParticleGun;
+    G4GeneralParticleSource* fParticleGun;
 
 };
 
