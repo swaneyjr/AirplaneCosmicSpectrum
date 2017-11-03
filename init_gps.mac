@@ -16,8 +16,11 @@
 # direction = -y
 /gps/direction 0. -1. 0.
 #
-# proton 100 MeV 
+# proton spectrum 
 /gps/particle proton
-/gps/ene/mono 100 MeV
+/gps/ene/type Pow
+/gps/ene/alpha -1.5
+/gps/ene/min 100 MeV
+/gps/ene/max 10 GeV
 #
 

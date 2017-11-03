@@ -2,22 +2,6 @@
 #
 /run/initialize
 #
-/gps/verbose 0
+/run/verbose 1 
 #
-# configure the incident surface
-/gps/pos/type Plane
-/gps/pos/shape Square
-/gps/pos/centre 0. 4. 0. m
-/gps/pos/halfx 4. m
-/gps/pos/halfz 4. m
-#
-# direction = -y
-/gps/direction 0. -1. 0.
-#
-# proton 100 MeV 
-/gps/particle proton
-/gps/ene/mono 100 MeV
-#
-#
-#
-/run/beamOn 1000
+/run/beamOn 10000
