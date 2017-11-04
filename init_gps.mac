@@ -8,19 +8,16 @@
 /gps/pos/type Plane
 /gps/pos/shape Square
 /gps/pos/centre 0. 4. 0. m
-/gps/pos/halfx 2. m
-/gps/pos/halfy 2. m
-/gps/pos/rot1 0. 0. 1.
-/gps/pos/rot2 1. 0. 0.
-#
-# direction = -y
-/gps/direction 0. -1. 0.
+/gps/pos/halfx 4. m
+/gps/pos/halfy 4. m
+/gps/pos/rot1 0. 0. -1.
+/gps/pos/rot2 -1. 0. 0.
 #
 # proton spectrum 
 /gps/particle proton
-/gps/ene/type Pow
-/gps/ene/alpha -1.5
-/gps/ene/min 100 MeV
-/gps/ene/max 10 GeV
+/gps/ang/type cos
+/gps/ene/type Arb
+/gps/hist/file spectrum.dat
+/gps/hist/inter Exp
 #
 

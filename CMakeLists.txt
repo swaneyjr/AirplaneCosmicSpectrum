@@ -49,6 +49,7 @@ set(EXAMPLE_AIRPLANE_SCRIPTS
   init_vis.mac
   vis.mac
   init_gps.mac
+  spectrum.dat
   )
 
 foreach(_script ${EXAMPLE_AIRPLANE_SCRIPTS})
