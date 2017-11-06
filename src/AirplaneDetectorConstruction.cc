@@ -25,11 +25,12 @@ G4VPhysicalVolume* AirplaneDetectorConstruction::Construct()
   G4Material* Al = nist->FindOrBuildMaterial("G4_Al");
   
 
-  G4double world_hxyz = 4.0*m;
+  G4double world_hxz = 4.0*m;
+  G4double world_hy = 2.0*m;
   G4double r_outer = 376./2*cm;
   G4double r_inner = 354./2*cm;
 
-  G4Box* world = new G4Box("World", world_hxyz, world_hxyz, world_hxyz);
+  G4Box* world = new G4Box("World", world_hxz, world_hy, world_hxz);
 
   G4LogicalVolume* logicWorld = new G4LogicalVolume(world, world_mat, "World");
 
@@ -42,7 +43,7 @@ G4VPhysicalVolume* AirplaneDetectorConstruction::Construct()
                      0, 
                      false);
 
-  G4Tubs* airplaneSkin = new G4Tubs("Airplane", r_inner, r_outer, world_hxyz, 0.*deg, 360.*deg);
+  G4Tubs* airplaneSkin = new G4Tubs("Airplane", r_inner, r_outer, world_hxz, 0.*deg, 360.*deg);
 
   G4LogicalVolume* logicAirplane = new G4LogicalVolume(airplaneSkin, Al, "Airplane");
 

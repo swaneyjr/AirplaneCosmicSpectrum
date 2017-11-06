@@ -7,7 +7,7 @@
 # configure the incident surface
 /gps/pos/type Plane
 /gps/pos/shape Square
-/gps/pos/centre 0. 4. 0. m
+/gps/pos/centre 0. 2. 0. m
 /gps/pos/halfx 4. m
 /gps/pos/halfy 4. m
 /gps/pos/rot1 0. 0. -1.
@@ -17,7 +17,7 @@
 /gps/particle proton
 /gps/ang/type cos
 /gps/ene/type Arb
-/gps/hist/file spectrum.dat
+/gps/hist/file proton_spectrum.dat
 /gps/hist/inter Exp
 #
 
