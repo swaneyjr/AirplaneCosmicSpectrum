@@ -39,6 +39,10 @@ int main(int argc, char** argv) {
     UImanager->ApplyCommand(command+fileName);
   } else {
     // interactive mode
+    UImanager->ApplyCommand("/gps/particle proton");
+    UImanager->ApplyCommand("/gps/hist/file spectra/air/proton.dat");
+    UImanager->ApplyCommand("/gps/hist/inter Exp");
+    UImanager->ApplyCommand("/gps/ene/min 100 MeV");
     UImanager->ApplyCommand("/control/execute init_vis.mac");
     ui->SessionStart();
     delete ui;

@@ -13,11 +13,8 @@
 /gps/pos/rot1 0. 0. -1.
 /gps/pos/rot2 -1. 0. 0.
 #
-# proton spectrum 
-/gps/particle proton
+# proton spectrum by default
 /gps/ang/type cos
 /gps/ene/type Arb
-/gps/hist/file proton_spectrum.dat
-/gps/hist/inter Exp
 #
 

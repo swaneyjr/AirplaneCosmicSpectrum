@@ -35,24 +35,30 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
-add_executable(airplaneMain airplaneMain.cc ${sources} ${headers})
-target_link_libraries(airplaneMain ${Geant4_LIBRARIES})
+add_executable(airplaneSim airplaneMain.cc ${sources} ${headers})
+target_link_libraries(airplaneSim ${Geant4_LIBRARIES})
 
 #----------------------------------------------------------------------------
-# Copy all scripts to the build directory, i.e. the directory in which we
-# build B1. This is so that we can run the executable directly because it
+# Copy all scripts to the build directory. 
+# This is so that we can run the executable directly because it
 # relies on these scripts being in the current working directory.
 #
 set(EXAMPLE_AIRPLANE_SCRIPTS
-  airplane.in
-  airplane.out
   init_vis.mac
   vis.mac
   init_gps.mac
-  proton_spectrum.dat
   )
 
-foreach(_script ${EXAMPLE_AIRPLANE_SCRIPTS})
+file(GLOB MACROS ${PROJECT_SOURCE_DIR}/macros/*.mac)
+file(GLOB_RECURSE DATA ${PROJECT_SOURCE_DIR}/spectra/*.dat)
+
+foreach(ITEM ${MACROS} ${DATA})
+  string(REPLACE ${PROJECT_SOURCE_DIR} "" ITEM ${ITEM})
+  list(APPEND EXTRA_FILES ${ITEM})
+endforeach()
+
+
+foreach(_script ${EXAMPLE_AIRPLANE_SCRIPTS} ${EXTRA_FILES})
   configure_file(
     ${PROJECT_SOURCE_DIR}/${_script}
     ${PROJECT_BINARY_DIR}/${_script}
@@ -64,11 +70,11 @@ endforeach()
 # For internal Geant4 use - but has no effect if you build this
 # example standalone
 #
-add_custom_target(AirplaneProtonSpectrum DEPENDS airplaneMain)
+add_custom_target(AirplaneProtonSpectrum DEPENDS airplaneSim)
 
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
-install(TARGETS airplaneMain DESTINATION bin)
+install(TARGETS airplaneSim DESTINATION bin)
 
 

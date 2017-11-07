@@ -1,0 +1,19 @@
+/run/verbose 1
+#
+/gps/particle proton
+/gps/hist/file spectra/air/proton.dat
+/gps/hist/inter Exp
+/gps/ene/min 100 MeV
+/run/beamOn 1000
+#
+/gps/particle mu-
+/gps/hist/file spectra/air/muon.dat
+/gps/hist/inter Exp
+/gps/ene/min 500 MeV
+/run/beamOn 1000
+#
+/gps/particle mu+
+/gps/hist/file spectra/air/antimuon.dat
+/gps/hist/inter Exp
+/gps/ene/min 500 MeV
+/run/beamOn 1000
