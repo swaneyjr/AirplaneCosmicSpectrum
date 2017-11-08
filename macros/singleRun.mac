@@ -3,7 +3,7 @@
 # configure particle distribution
 /gps/particle {pname}
 /gps/ene/type Arb
-/gps/hist/file spectra/{data_dir}{pname}.dat
+/gps/hist/file spectra/{data_dir}/{pname}.dat
 /gps/hist/inter Exp
 #
 # construct histogram
@@ -11,4 +11,4 @@
 #
 #
 /control/doifBatch /run/verbose 1
-/control/doifBatch /run/beamOn 10000
+/control/doifBatch /run/beamOn 1000 #{{pname}_primaries}

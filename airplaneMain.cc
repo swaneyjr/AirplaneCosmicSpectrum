@@ -13,6 +13,8 @@
 #include "g4root.hh"
 #include "globals.hh"
 
+#include <algorithm>
+
 int main(int argc, char** argv) {
 
   // Detect interactive mode (if no arguments) and define UI session
@@ -38,12 +40,32 @@ int main(int argc, char** argv) {
   // make analysis files
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
   G4String fname = "interactive.root";
-  if (argc == 2) {
-    G4String basename = argv[1];  
-    fname = basename + ".root";	  
-  } else if (argc > 2) {
-    fname = argv[2];
+  if (!ui) {
+
+    // parse data directory finto filename	  
+    G4String data_dir = argv[1];
+
+    // should work whether the user inputs spectra/ dir or not
+    G4String spectra_dir = "spectra/";
+    if (data_dir.substr(0, spectra_dir.size()) == spectra_dir) {
+      data_dir.erase(0, spectra_dir.size());
+    }
+    
+    if (data_dir[data_dir.size()-1] == '/') {
+      data_dir.erase(data_dir.size()-1, 1);
+    }
+    
+    // set directory as alias so we can grab data from it
+    G4String aliasString = "data_dir " + data_dir;
+    const char* aliasLine = aliasString.c_str();
+    
+    UImanager->SetAlias(aliasLine);
+
+    fname = data_dir + ".root";
+    std::replace(fname.begin(), fname.end(), '/', '_'); 
+
   }
+
   analysisManager->OpenFile(fname);
 
   analysisManager->CreateNtuple("hits", "Airplane particle hits");
@@ -59,23 +81,6 @@ int main(int argc, char** argv) {
   if(!ui) {
     // batch mode
     
-    G4String data_dir = argv[1];
-
-    // should work whether the user inputs spectra/ dir or not
-    G4String spectra_dir = "spectra/";
-    if (data_dir.substr(0, spectra_dir.size()) == spectra_dir) {
-      data_dir.erase(0, spectra_dir.size());
-    }
-
-    if (data_dir[data_dir.size()-1] != '/') {
-      data_dir += '/';
-    }
-
-    // set directory as alias so we can grab data from it
-    G4String aliasString = "data_dir " + data_dir;
-    const char* aliasLine = aliasString.c_str();
-
-    UImanager->SetAlias(aliasLine);
     UImanager->Foreach("macros/singleRun.mac", "pname", "proton neutron mu+ mu- e+ e- gamma alpha");
 
   } else {
