@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
   
   // make analysis files
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-  G4String fname = "cosmics.root";
+  G4String fname = "interactive.root";
   if (argc == 2) {
     G4String basename = argv[1];  
     fname = basename + ".root";	  
@@ -76,7 +76,7 @@ int main(int argc, char** argv) {
     const char* aliasLine = aliasString.c_str();
 
     UImanager->SetAlias(aliasLine);
-    UImanager->Foreach("macros/forEachSpectrum.mac", "pname", "proton neutron mu+ mu- e+ e- gamma alpha");
+    UImanager->Foreach("macros/singleRun.mac", "pname", "proton neutron mu+ mu- e+ e- gamma alpha");
 
   } else {
     // interactive mode

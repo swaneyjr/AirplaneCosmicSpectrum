@@ -9,3 +9,6 @@
 # construct histogram
 /analysis/h1/create {pname} {pname} 100 .01 10000 MeV ! log
 #
+#
+/control/doifBatch /run/verbose 1
+/control/doifBatch /run/beamOn 10000

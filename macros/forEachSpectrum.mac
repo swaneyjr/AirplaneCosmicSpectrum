@@ -1,5 +1,0 @@
-/run/verbose 1
-#
-/control/execute macros/singleRun.mac
-/run/beamOn 10000
-#
