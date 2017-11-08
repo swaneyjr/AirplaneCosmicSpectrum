@@ -14,6 +14,7 @@
 #include "globals.hh"
 
 #include <algorithm>
+#include <glob.h>
 
 int main(int argc, char** argv) {
 
@@ -40,7 +41,7 @@ int main(int argc, char** argv) {
   // make analysis files
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
   G4String fname = "interactive.root";
-  if (!ui) {
+  if ( !ui ) {
 
     // parse data directory finto filename	  
     G4String data_dir = argv[1];
@@ -78,10 +79,35 @@ int main(int argc, char** argv) {
   analysisManager->CreateNtupleDColumn("hit_x");
   analysisManager->FinishNtuple();
 
-  if(!ui) {
+  if( !ui ) {
     // batch mode
     
-    UImanager->Foreach("macros/singleRun.mac", "pname", "proton neutron mu+ mu- e+ e- gamma alpha");
+    G4String pathname = "spectra/" + UImanager->SolveAlias("{data_dir}") + "/*.dat";
+    const char* pathc = pathname.c_str();
+
+    glob_t* pglob = new glob_t();
+    glob(pathc, 0, nullptr, pglob);
+    G4String particles = "";
+
+    for(unsigned int i=0; i < pglob->gl_pathc; i++) {
+      if ( i > 0 ) {
+        particles += " ";
+      }	      
+      G4String ppath = pglob->gl_pathv[i];
+      // get rid of .dat
+      ppath.erase(ppath.size()-4, 4);
+      // and leading directory
+      ppath.erase(0, pathname.size()-5);
+      particles += ppath;
+    }
+    const char* particlec = particles.c_str();
+
+    UImanager->Foreach("macros/singleRun.mac", "pname", particlec);
+
+    analysisManager->Write();
+
+    globfree(pglob);
+    delete particlec;
 
   } else {
     // interactive mode
