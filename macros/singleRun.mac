@@ -1,0 +1,11 @@
+# Macro for single particle
+#
+# configure particle distribution
+/gps/particle {pname}
+/gps/ene/type Arb
+/gps/hist/file spectra/{data_dir}{pname}.dat
+/gps/hist/inter Exp
+#
+# construct histogram
+/analysis/h1/create {pname} {pname} 100 .01 10000 MeV ! log
+#

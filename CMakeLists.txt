@@ -43,11 +43,6 @@ target_link_libraries(airplaneSim ${Geant4_LIBRARIES})
 # This is so that we can run the executable directly because it
 # relies on these scripts being in the current working directory.
 #
-set(EXAMPLE_AIRPLANE_SCRIPTS
-  init_vis.mac
-  vis.mac
-  init_gps.mac
-  )
 
 file(GLOB MACROS ${PROJECT_SOURCE_DIR}/macros/*.mac)
 file(GLOB_RECURSE DATA ${PROJECT_SOURCE_DIR}/spectra/*.dat)
@@ -58,7 +53,7 @@ foreach(ITEM ${MACROS} ${DATA})
 endforeach()
 
 
-foreach(_script ${EXAMPLE_AIRPLANE_SCRIPTS} ${EXTRA_FILES})
+foreach(_script ${EXTRA_FILES})
   configure_file(
     ${PROJECT_SOURCE_DIR}/${_script}
     ${PROJECT_BINARY_DIR}/${_script}

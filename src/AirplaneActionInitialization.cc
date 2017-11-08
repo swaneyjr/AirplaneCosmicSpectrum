@@ -16,7 +16,7 @@ AirplaneActionInitialization::~AirplaneActionInitialization()
 void AirplaneActionInitialization::Build() const
 {
   SetUserAction(new AirplanePrimaryGeneratorAction());
-  SetUserAction(new AirplaneRunAction());
+  //SetUserAction(new AirplaneRunAction());
   SetUserAction(new AirplaneEventAction());
   SetUserAction(new AirplaneSteppingAction());
 }
