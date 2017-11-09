@@ -15,6 +15,8 @@
 
 #include <algorithm>
 #include <glob.h>
+#include <iostream>
+#include <string>
 
 int main(int argc, char** argv) {
 
@@ -67,6 +69,7 @@ int main(int argc, char** argv) {
 
   }
 
+  analysisManager->SetHistoDirectoryName("primaries");
   analysisManager->OpenFile(fname);
 
   analysisManager->CreateNtuple("hits", "Airplane particle hits");
@@ -79,6 +82,7 @@ int main(int argc, char** argv) {
   analysisManager->CreateNtupleDColumn("hit_x");
   analysisManager->FinishNtuple();
 
+
   if( !ui ) {
     // batch mode
     
@@ -87,27 +91,63 @@ int main(int argc, char** argv) {
 
     glob_t* pglob = new glob_t();
     glob(pathc, 0, nullptr, pglob);
-    G4String particles = "";
+    G4String particle_str = "";
+    const G4int n_particles = pglob->gl_pathc;
+    std::vector<G4String> particles(n_particles);
+    std::vector<G4double> fluxes(n_particles);
 
-    for(unsigned int i=0; i < pglob->gl_pathc; i++) {
-      if ( i > 0 ) {
-        particles += " ";
+    for(G4int p=0; p < n_particles; p++) {
+      if ( p > 0 ) {
+        particle_str += " ";
       }	      
-      G4String ppath = pglob->gl_pathv[i];
+      G4String ppath = pglob->gl_pathv[p];
+
+      // first find relative particle abundances
+      std::ifstream inFile(ppath);
+      G4double lastEnergy = 0;
+      G4double lastFlux = 0;
+      G4String data_pt;
+      while (inFile) {
+        std::getline(inFile, data_pt);
+        if (data_pt != "") {	
+	  G4int i = data_pt.index("\t");
+	  if( i < 0 ) {
+            i = data_pt.index(" ");
+	  } 
+	  G4double energy = std::stod(data_pt(0,i));
+	  G4double flux = std::stod(data_pt(i+1, data_pt.length()-(i+1)));
+	  
+	  fluxes[p] += (flux+lastFlux)/2 * (energy-lastEnergy);
+	  
+	  lastEnergy = energy;
+	  lastFlux = flux;
+	}
+      }
+      inFile.close();
+
+      // now parse to find particle name
       // get rid of .dat
       ppath.erase(ppath.size()-4, 4);
       // and leading directory
       ppath.erase(0, pathname.size()-5);
-      particles += ppath;
+      particles[p] = ppath;
+      particle_str += ppath;
     }
-    const char* particlec = particles.c_str();
 
-    UImanager->Foreach("macros/singleRun.mac", "pname", particlec);
+    // normalize the particle fluxes
+    G4double total_flux = 0;
+    for(G4int p=0; p<n_particles; p++) {	    
+      total_flux += fluxes[p];
+    }
+    for(G4int p=0; p<n_particles; p++) {
+      G4int nBeamOn = (G4int)(10000000*fluxes[p]/total_flux);    
+      G4String fluxAlias = particles[p] + "_primaries " + std::to_string(nBeamOn);
+      UImanager->SetAlias(fluxAlias.c_str());
+    }
 
-    analysisManager->Write();
+    UImanager->Foreach("macros/singleRun.mac", "pname", particle_str.c_str());
 
     globfree(pglob);
-    delete particlec;
 
   } else {
     // interactive mode

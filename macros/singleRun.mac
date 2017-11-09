@@ -7,8 +7,8 @@
 /gps/hist/inter Exp
 #
 # construct histogram
-/analysis/h1/create {pname} {pname} 100 .01 10000 MeV ! log
+/analysis/h1/create {pname} {pname} 200 .01 1000000 MeV ! log
 #
 #
 /control/doifBatch /run/verbose 1
-/control/doifBatch /run/beamOn 1000 #{{pname}_primaries}
+/control/doifBatch /run/beamOn {{pname}_primaries}
