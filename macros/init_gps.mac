@@ -1,4 +1,4 @@
-#Macro file for example B1 test
+# Macrofile for configuring cosmic ray particle source
 #
 /run/initialize
 #
@@ -6,10 +6,10 @@
 #
 # configure the incident surface
 /gps/pos/type Plane
-/gps/pos/shape Square
+/gps/pos/shape Rectangle
 /gps/pos/centre 0. 2. 0. m
-/gps/pos/halfx 4. m
-/gps/pos/halfy 4. m
+/gps/pos/halfx {half_x_m} m
+/gps/pos/halfy {half_y_m} m
 /gps/pos/rot1 0. 0. -1.
 /gps/pos/rot2 -1. 0. 0.
 #

@@ -37,9 +37,22 @@ int main(int argc, char** argv) {
   visManager->Initialize();
 
   G4UImanager* UImanager = G4UImanager::GetUIpointer();
-
-  UImanager->ExecuteMacroFile("macros/init_gps.mac");
   
+  // set up particle source
+  G4double half_x = 4656*.00112/2*mm;
+  G4double half_y = 4.0*m;
+  G4double source_area = 4*half_x*half_y;
+  G4double run_time = 3600.*s;
+  if(argc > 2) {
+    run_time = std::stod(argv[2])*s;
+  }  
+
+  G4String aliasX = "half_x_m " + std::to_string(half_x/m);
+  G4String aliasY = "half_y_m " + std::to_string(half_y/m);
+  UImanager->SetAlias(aliasX.c_str());
+  UImanager->SetAlias(aliasY.c_str());
+  UImanager->ExecuteMacroFile("macros/init_gps.mac");
+
   // make analysis files
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
   G4String fname = "interactive.root";
@@ -114,8 +127,9 @@ int main(int argc, char** argv) {
 	  if( i < 0 ) {
             i = data_pt.index(" ");
 	  } 
-	  G4double energy = std::stod(data_pt(0,i));
-	  G4double flux = std::stod(data_pt(i+1, data_pt.length()-(i+1)));
+	  G4double energy = std::stod(data_pt(0,i)) * MeV;
+	  G4double flux = std::stod(data_pt(i+1, data_pt.length()-(i+1)))
+		  / (MeV * s * cm2);
 	  
 	  fluxes[p] += (flux+lastFlux)/2 * (energy-lastEnergy);
 	  
@@ -135,12 +149,8 @@ int main(int argc, char** argv) {
     }
 
     // normalize the particle fluxes
-    G4double total_flux = 0;
-    for(G4int p=0; p<n_particles; p++) {	    
-      total_flux += fluxes[p];
-    }
     for(G4int p=0; p<n_particles; p++) {
-      G4int nBeamOn = (G4int)(10000000*fluxes[p]/total_flux);    
+      G4int nBeamOn = (G4int)(fluxes[p]*source_area*run_time);    
       G4String fluxAlias = particles[p] + "_primaries " + std::to_string(nBeamOn);
       UImanager->SetAlias(fluxAlias.c_str());
     }
