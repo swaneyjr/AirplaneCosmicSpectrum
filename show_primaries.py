@@ -13,15 +13,17 @@ if __name__ == '__main__':
     f = r.TFile(args.rootfile)
     f.cd('primaries')
     hists = [k.ReadObj() for k in r.gDirectory.GetListOfKeys()]
+
+    for i,h in enumerate(hists):
+        h.SetLineColor(i+1)
+
     hists.sort(key=lambda h: h.GetMaximum(), reverse=True)
     
-    for i,h in enumerate(hists):
+    for h in hists:
         h.SetStats(False)
-        h.SetLineColor(i+1)
         h.GetXaxis().SetTitle('Kinetic Energy (MeV)')
         h.Draw('same')
 
-    
     r.gPad.SetLogx()
     r.gPad.SetLogy()
     r.gPad.BuildLegend()
