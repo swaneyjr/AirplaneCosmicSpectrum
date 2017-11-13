@@ -29,6 +29,7 @@ int main(int argc, char** argv) {
 
   G4RunManager* runManager = new G4RunManager;
 
+  runManager->SetVerboseLevel(0);
   runManager->SetUserInitialization(new AirplaneDetectorConstruction);
   runManager->SetUserInitialization(new QGSP_BERT);
   runManager->SetUserInitialization(new AirplaneActionInitialization);
@@ -89,10 +90,9 @@ int main(int argc, char** argv) {
   
   analysisManager->CreateNtupleSColumn("particle");
   analysisManager->CreateNtupleDColumn("beta_gamma");
-  analysisManager->CreateNtupleDColumn("dEdx");
-  analysisManager->CreateNtupleDColumn("E_primary");
-  analysisManager->CreateNtupleDColumn("y_primary");
-  analysisManager->CreateNtupleDColumn("hit_x");
+  analysisManager->CreateNtupleDColumn("Edep");
+  analysisManager->CreateNtupleDColumn("yVertex");
+  analysisManager->CreateNtupleDColumn("xSensor");
   analysisManager->FinishNtuple();
 
 

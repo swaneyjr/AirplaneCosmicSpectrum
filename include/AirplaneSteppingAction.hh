@@ -4,23 +4,24 @@
 #define AirplaneSteppingAction_h 1
 
 #include "G4UserSteppingAction.hh"
+#include "AirplaneTrackingAction.hh"
 #include "G4Step.hh"
-#include "G4ParticleDefinition.hh"
+#include "G4LogicalVolume.hh"
 #include "globals.hh"
+
+class G4LogicalVolume;
 
 class AirplaneSteppingAction : public G4UserSteppingAction
 {
   public:
-    AirplaneSteppingAction();
+    AirplaneSteppingAction(AirplaneTrackingAction* trackingAction);
     virtual ~AirplaneSteppingAction();
 
     virtual void UserSteppingAction(const G4Step*);
 
-  private:
-    G4double dEdx(G4double, const G4ParticleDefinition*);
-    G4double dEdx_Bethe(G4double, const G4ParticleDefinition*);
+  private: 
+    G4LogicalVolume* fScoringVolume;  
+    AirplaneTrackingAction* fTrackingAction;
 };
-
-
 
 #endif

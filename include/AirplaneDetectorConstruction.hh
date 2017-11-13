@@ -15,6 +15,13 @@ class AirplaneDetectorConstruction: public G4VUserDetectorConstruction
     virtual ~AirplaneDetectorConstruction();
 
     virtual G4VPhysicalVolume* Construct();
+    // virtual void ConstructSDandField();
+
+    inline G4LogicalVolume* GetSensorVolume() const
+    { return fSensorLV; }
+
+  private:
+    G4LogicalVolume* fSensorLV;  
 };
 
 #endif
