@@ -4,6 +4,8 @@
 #define AirplaneTrackingAction_h 1
 
 #include "G4UserTrackingAction.hh"
+
+#include "G4PrimaryParticle.hh"
 #include "G4Track.hh"
 #include "globals.hh"
 
@@ -16,17 +18,21 @@ class AirplaneTrackingAction : public G4UserTrackingAction
     virtual void PreUserTrackingAction(const G4Track*);
     virtual void PostUserTrackingAction(const G4Track* aTrack);
 
+  private:  
+    G4bool fHit;
+
+    G4String fPrimary;
+    G4double fEprimary;
+    G4double fEdep;
+    G4double fSensorX;
+    const G4double fEdepThresh;
+
+  public:
+    void SetPrimaryParticle(G4PrimaryParticle*);
     void AddEdep(G4double edep) { fEdep += edep; }
-    void SetBetaGamma(G4double bg) { fBetaGamma = bg; }
     void SetSensorX(G4double x) { fSensorX = x; }
     void SetHit() { fHit = true; }
     G4bool AlreadyHit() { return fHit; }
-
-  private:  
-    G4double fEdep;
-    G4bool fHit;
-    G4double fBetaGamma;
-    G4double fSensorX;
 
 };
 

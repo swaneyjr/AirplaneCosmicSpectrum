@@ -45,7 +45,6 @@ void AirplaneSteppingAction::UserSteppingAction(const G4Step* aStep)
     if ( !fTrackingAction->AlreadyHit() ) {
       fTrackingAction->SetHit();
       fTrackingAction->SetSensorX(preStep->GetPosition().getX());
-      fTrackingAction->SetBetaGamma(preStep->GetBeta()*preStep->GetGamma());
     }	    
   
     fTrackingAction->AddEdep(aStep->GetTotalEnergyDeposit());

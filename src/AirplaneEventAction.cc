@@ -9,8 +9,9 @@
 #include "globals.hh"
 #include "g4root.hh"
 
-AirplaneEventAction::AirplaneEventAction()
-  : G4UserEventAction()
+AirplaneEventAction::AirplaneEventAction(AirplaneTrackingAction* tracking)
+  : G4UserEventAction(),
+    fTracking(tracking)	
 { }
 
 AirplaneEventAction::~AirplaneEventAction()
@@ -18,8 +19,8 @@ AirplaneEventAction::~AirplaneEventAction()
 
 void AirplaneEventAction::BeginOfEventAction(const G4Event* anEvent)
 {
-  G4PrimaryVertex* primaryVertex = anEvent->GetPrimaryVertex();
-  G4PrimaryParticle* primary = primaryVertex->GetPrimary();
+  G4PrimaryParticle* primary = anEvent->GetPrimaryVertex()->GetPrimary();
+  fTracking->SetPrimaryParticle(primary);
   G4double ke = primary->GetKineticEnergy();  
 
   G4UImanager* UI = G4UImanager::GetUIpointer();

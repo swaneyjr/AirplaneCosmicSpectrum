@@ -18,9 +18,9 @@ void AirplaneActionInitialization::Build() const
 {
   SetUserAction(new AirplanePrimaryGeneratorAction());
   SetUserAction(new AirplaneRunAction());
-  SetUserAction(new AirplaneEventAction());
   
   AirplaneTrackingAction* tracking = new AirplaneTrackingAction();
   SetUserAction(tracking);
+  SetUserAction(new AirplaneEventAction(tracking));
   SetUserAction(new AirplaneSteppingAction(tracking));
 }
