@@ -74,7 +74,7 @@ G4VPhysicalVolume* AirplaneDetectorConstruction::Construct()
                   false,
                   0);
 
-  fSensorLV = logicAirplane;
+  fSensorLV = logicSensor;
     
   return physWorld;
 }

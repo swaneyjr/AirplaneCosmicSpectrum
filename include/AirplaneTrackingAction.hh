@@ -33,6 +33,7 @@ class AirplaneTrackingAction : public G4UserTrackingAction
     void SetSensorX(G4double x) { fSensorX = x; }
     void SetHit() { fHit = true; }
     G4bool AlreadyHit() { return fHit; }
+    G4double GetEdepThresh() { return fEdepThresh; }
 
 };
 

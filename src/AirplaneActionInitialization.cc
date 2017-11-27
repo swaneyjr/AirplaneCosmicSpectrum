@@ -5,6 +5,7 @@
 #include "AirplanePrimaryGeneratorAction.hh"
 #include "AirplaneRunAction.hh"
 #include "AirplaneEventAction.hh"
+#include "AirplaneStackingAction.hh"
 #include "AirplaneTrackingAction.hh"
 #include "AirplaneSteppingAction.hh"
 
@@ -22,5 +23,6 @@ void AirplaneActionInitialization::Build() const
   AirplaneTrackingAction* tracking = new AirplaneTrackingAction();
   SetUserAction(tracking);
   SetUserAction(new AirplaneEventAction(tracking));
+  SetUserAction(new AirplaneStackingAction(tracking));
   SetUserAction(new AirplaneSteppingAction(tracking));
 }
