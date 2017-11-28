@@ -89,6 +89,7 @@ int main(int argc, char** argv) {
   analysisManager->CreateNtuple("hits", "Airplane particle hits");
   
   analysisManager->CreateNtupleSColumn("particle");
+  analysisManager->CreateNtupleDColumn("Eparticle");
   analysisManager->CreateNtupleSColumn("primary");
   analysisManager->CreateNtupleDColumn("Eprimary");
   analysisManager->CreateNtupleDColumn("Edep");

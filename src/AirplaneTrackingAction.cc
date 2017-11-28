@@ -31,12 +31,13 @@ void AirplaneTrackingAction::PostUserTrackingAction(const G4Track* aTrack)
                                       
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
   analysisManager->FillNtupleSColumn(0, particle->GetParticleName());
-  analysisManager->FillNtupleSColumn(1, fPrimary);
-  analysisManager->FillNtupleDColumn(2, fEprimary/MeV);
-  analysisManager->FillNtupleDColumn(3, fEdep/MeV);
-  analysisManager->FillNtupleDColumn(4, vertex.getX()/cm);
-  analysisManager->FillNtupleDColumn(5, vertex.getY()/cm);
-  analysisManager->FillNtupleDColumn(6, fSensorX/cm);   
+  analysisManager->FillNtupleDColumn(1, aTrack->GetVertexKineticEnergy()/MeV);
+  analysisManager->FillNtupleSColumn(2, fPrimary);
+  analysisManager->FillNtupleDColumn(3, fEprimary/MeV);
+  analysisManager->FillNtupleDColumn(4, fEdep/MeV);
+  analysisManager->FillNtupleDColumn(5, vertex.getX()/cm);
+  analysisManager->FillNtupleDColumn(6, vertex.getY()/cm);
+  analysisManager->FillNtupleDColumn(7, fSensorX/cm);   
 
   analysisManager->AddNtupleRow();              
 }

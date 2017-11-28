@@ -62,7 +62,7 @@ G4VPhysicalVolume* AirplaneDetectorConstruction::Construct()
   		  G4ThreeVector(),
   		  logicSensor, 
   		  "sensorphys", 
-  		  logicAirplane, 
+  		  logicWorld, 
   		  false, 
   		  0);
 
@@ -79,54 +79,4 @@ G4VPhysicalVolume* AirplaneDetectorConstruction::Construct()
   return physWorld;
 }
 
-/*
-void AirplaneDetectorConstruction::ConstructSDandField()
-{
- 
-  // add the camera sensor as a detector
-  G4MultiFunctionalDetector* cameraSensor = new G4MultiFunctionalDetector("sensor");
-  G4SDManager* SDman = G4SDManager::GetSDMpointer();
-  SDman->AddNewDetector(cameraSensor);
-  
-  G4SDParticleFilter* protonFilter 
-	  = new G4SDParticleFilter("protonFilter", "proton");
-  G4SDParticleFilter* neutronFilter
-	  = new G4SDParticleFilter("neutronFilter", "neutron");
-  G4SDParticleFilter* gammaFilter
-	  = new G4SDParticleFilter("gammaFilter", "gamma");
-  G4SDParticleFilter* betaFilter
-	  = new G4SDParticleFilter("betaFilter");
-  G4SDParticleFilter* muFilter
-	  = new G4SDParticleFilter("muFilter");
 
-  betaFilter->add("e-");
-  betaFilter->add("e+");
-
-  muFilter->add("mu-");
-  muFilter->add("mu+");
-
-  G4PSEnergyDeposit* eDep;
-  eDep = new G4PSEnergyDeposit("eProton");
-  eDep-> SetFilter(protonFilter);
-  cameraSensor->RegisterPrimitive(eDep);
-
-  eDep = new G4PSEnergyDeposit("eNeutron");
-  eDep-> SetFilter(neutronFilter);
-  cameraSensor->RegisterPrimitive(eDep);
-
-  eDep = new G4PSEnergyDeposit("eGamma");
-  eDep-> SetFilter(gammaFilter);
-  cameraSensor->RegisterPrimitive(eDep);
-
-  eDep = new G4PSEnergyDeposit("eBeta");
-  eDep-> SetFilter(betaFilter);
-  cameraSensor->RegisterPrimitive(eDep);
-
-  eDep = new G4PSEnergyDeposit("eMu");
-  eDep-> SetFilter(muFilter);
-  cameraSensor->RegisterPrimitive(eDep);
-
-  fSensorLV->SetSensitiveDetector(cameraSensor);
-  
-}
-*/
