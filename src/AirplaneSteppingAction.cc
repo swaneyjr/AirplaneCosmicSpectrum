@@ -37,7 +37,6 @@ void AirplaneSteppingAction::UserSteppingAction(const G4Step* aStep)
   const G4VPhysicalVolume* prePhys = preTouchable->GetVolume();
   const G4LogicalVolume* preVolume = prePhys->GetLogicalVolume();
 
-
   
   if ( preVolume == fScoringVolume ) {
     // we are inside the sensor, so save energy
@@ -47,7 +46,7 @@ void AirplaneSteppingAction::UserSteppingAction(const G4Step* aStep)
       fTrackingAction->SetSensorX(preStep->GetPosition().getX());
     }	    
   
-    fTrackingAction->AddEdep(aStep->GetTotalEnergyDeposit());
+    fTrackingAction->AddEdep(aStep->GetTotalEnergyDeposit() - aStep->GetNonIonizingEnergyDeposit());
   }
 }
 

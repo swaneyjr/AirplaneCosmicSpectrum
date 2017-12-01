@@ -24,6 +24,7 @@ class AirplaneTrackingAction : public G4UserTrackingAction
     G4String fPrimary;
     G4double fEprimary;
     G4double fEdep;
+    G4LogicalVolume* fScoringVolume;
     G4double fSensorX;
     const G4double fEdepThresh;
 

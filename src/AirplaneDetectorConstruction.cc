@@ -31,11 +31,12 @@ G4VPhysicalVolume* AirplaneDetectorConstruction::Construct()
   G4Material* Si = nist->FindOrBuildMaterial("G4_Si");
   
 
-  G4double world_hxz = 4.0*m;
-  G4double world_hy = 2.0*m;
-  G4double r_outer = 376./2*cm;
-  G4double r_inner = 354./2*cm;
-  G4double sensor_hy = .001*mm;
+  const G4double world_hxz = 4.0*m;
+  const G4double world_hy = 2.0*m;
+  const G4double r_outer = 376./2*cm;
+  const G4double skin_thickness = 1.*mm;
+  const G4double r_inner = r_outer - skin_thickness;
+  const G4double sensor_hy = .001*mm;
 
   G4Box* world = new G4Box("World", world_hxz, world_hy, world_hxz);
 
