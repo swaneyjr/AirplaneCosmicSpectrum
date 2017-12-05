@@ -59,7 +59,7 @@ int main(int argc, char** argv) {
   G4String fname = "interactive.root";
   if ( !ui ) {
 
-    // parse data directory finto filename	  
+    // parse data directory into filename	  
     G4String data_dir = argv[1];
 
     // should work whether the user inputs spectra/ dir or not
@@ -78,7 +78,7 @@ int main(int argc, char** argv) {
     
     UImanager->SetAlias(aliasLine);
 
-    fname = data_dir + ".root";
+    fname = "alt" + data_dir + "_t" + std::to_string((G4int)(run_time/s)) + ".root";
     std::replace(fname.begin(), fname.end(), '/', '_'); 
 
   }
