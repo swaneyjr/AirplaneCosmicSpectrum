@@ -22,9 +22,28 @@ int main(int argc, char** argv) {
 
   // Detect interactive mode (if no arguments) and define UI session
   //
+  G4UImanager* UImanager = G4UImanager::GetUIpointer();
   G4UIExecutive* ui = 0;
+
+  // set default values
+  
+  UImanager->SetAlias("alt 0");
+  UImanager->SetAlias("shield 1");
+  UImanager->SetAlias("t 3600");
+
+
   if(argc == 1) {
     ui = new G4UIExecutive(argc, argv);
+  } else {
+    G4String prefix = "--";
+    for (G4int argi=1; argi < argc; argi++) {
+      G4String arg = G4String(argv[argi]);
+      if (!arg.compare(0, prefix.length(), prefix)) {
+        G4String var = arg.substr(prefix.length());
+	G4String val = G4String(argv[++argi]);
+	UImanager->SetAlias((var+" "+val).c_str());
+      }
+    }
   }
 
   G4RunManager* runManager = new G4RunManager;
@@ -36,17 +55,11 @@ int main(int argc, char** argv) {
 
   G4VisManager* visManager = new G4VisExecutive;
   visManager->Initialize();
-
-  G4UImanager* UImanager = G4UImanager::GetUIpointer();
   
   // set up particle source
   G4double half_x = 4656*.00112/2*mm;
   G4double half_y = 4.0*m;
   G4double source_area = 4*half_x*half_y;
-  G4double run_time = 3600.*s;
-  if(argc > 2) {
-    run_time = std::stod(argv[2])*s;
-  }  
 
   G4String aliasX = "half_x_m " + std::to_string(half_x/m);
   G4String aliasY = "half_y_m " + std::to_string(half_y/m);
@@ -59,27 +72,9 @@ int main(int argc, char** argv) {
   G4String fname = "interactive.root";
   if ( !ui ) {
 
-    // parse data directory into filename	  
-    G4String data_dir = argv[1];
-
-    // should work whether the user inputs spectra/ dir or not
-    G4String spectra_dir = "spectra/";
-    if (data_dir.substr(0, spectra_dir.size()) == spectra_dir) {
-      data_dir.erase(0, spectra_dir.size());
-    }
-    
-    if (data_dir[data_dir.size()-1] == '/') {
-      data_dir.erase(data_dir.size()-1, 1);
-    }
-    
-    // set directory as alias so we can grab data from it
-    G4String aliasString = "data_dir " + data_dir;
-    const char* aliasLine = aliasString.c_str();
-    
-    UImanager->SetAlias(aliasLine);
-
-    fname = "alt" + data_dir + "_t" + std::to_string((G4int)(run_time/s)) + ".root";
-    std::replace(fname.begin(), fname.end(), '/', '_'); 
+    fname = "alt" + UImanager->SolveAlias("{alt}")
+      + "_shield" + UImanager->SolveAlias("{shield}")
+      + "_t" + UImanager->SolveAlias("{t}") + ".root";
 
   }
 
@@ -102,7 +97,8 @@ int main(int argc, char** argv) {
   if( !ui ) {
     // batch mode
     
-    G4String pathname = "spectra/" + UImanager->SolveAlias("{data_dir}") + "/*.dat";
+    G4String pathname = "spectra/" + UImanager->SolveAlias("{alt}") + "/*.dat";
+    G4double run_time = std::stod(UImanager->SolveAlias("{t}"))*s;
     const char* pathc = pathname.c_str();
 
     glob_t* pglob = new glob_t();
@@ -164,7 +160,6 @@ int main(int argc, char** argv) {
 
   } else {
     // interactive mode
-    UImanager->SetAlias("data_dir ground/");
     UImanager->SetAlias("pname mu-");
     UImanager->ExecuteMacroFile("macros/singleRun.mac");
     UImanager->ExecuteMacroFile("macros/init_vis.mac");

@@ -3,7 +3,7 @@
 # configure particle distribution
 /gps/particle {pname}
 /gps/ene/type Arb
-/gps/hist/file spectra/{data_dir}/{pname}.dat
+/gps/hist/file spectra/{alt}/{pname}.dat
 /gps/hist/inter Exp
 #
 # construct histogram

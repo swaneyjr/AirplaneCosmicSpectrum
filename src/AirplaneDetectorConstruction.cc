@@ -3,6 +3,8 @@
 
 #include "AirplaneDetectorConstruction.hh"
 
+#include "G4UImanager.hh"
+
 #include "G4Material.hh"
 #include "G4NistManager.hh"
 #include "G4SDManager.hh"
@@ -32,10 +34,11 @@ G4VPhysicalVolume* AirplaneDetectorConstruction::Construct()
   
 
   const G4double world_hxz = 4.0*m;
-  const G4double world_hy = 2.0*m;
-  const G4double r_outer = 376./2*cm;
-  const G4double skin_thickness = 1.*mm;
-  const G4double r_inner = r_outer - skin_thickness;
+  const G4double world_hy = 2.5*m;
+  const G4double r_inner = 354./2*cm;
+  const G4double skin_thickness = std::stod(G4UImanager::GetUIpointer()
+	  ->SolveAlias("{shield}"))*mm;
+  const G4double r_outer = r_inner + skin_thickness;
   const G4double sensor_hy = .001*mm;
 
   G4Box* world = new G4Box("World", world_hxz, world_hy, world_hxz);
